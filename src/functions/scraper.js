@@ -15,7 +15,7 @@ app.http('scraper', {
         try {
             const browser = await puppeteer.launch({
                 headless: true,
-                executablePath: '/home/site/wwwroot/.cache/puppeteer/chrome/linux-134.0.6998.35/chrome-linux64/chrome',
+                executablePath: '/home/site/wwwroot/chrome-linux/chrome/google-chrome',
                 args: ['--no-sandbox', '--disable-setuid-sandbox']
             });
             // const browser = await puppeteer.launch({
