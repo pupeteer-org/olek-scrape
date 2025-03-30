@@ -33,20 +33,20 @@ jobs:
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           npm install
-          npx puppeteer browsers install chrome
+          npx puppeteer browsers install chrome --install-deps
           npm run build --if-present
           npm run test --if-present
           popd
           
-      - name: Download Chrome
-        run: |
-            mkdir -p ./chrome-linux
-            wget -O google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-            dpkg-deb -x google-chrome-stable_current_amd64.deb ./chrome-linux
-            mv ./chrome-linux/opt/google/chrome ./chrome-linux/chrome
+      # - name: Download Chrome
+      #   run: |
+      #       mkdir -p ./chrome-linux
+      #       wget -O google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+      #       dpkg-deb -x google-chrome-stable_current_amd64.deb ./chrome-linux
+      #       mv ./chrome-linux/opt/google/chrome ./chrome-linux/chrome
 
-      - name: Set Permissions
-        run: chmod +x ./chrome-linux/chrome/google-chrome
+      # - name: Set Permissions
+      #   run: chmod +x ./chrome-linux/chrome/google-chrome
         
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
@@ -69,11 +69,11 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
-      - name: Install System Dependencies
-        shell: bash
-        run: |
-          sudo apt-get update -yy
-          sudo apt-get install -yy libnss3-dev libgdk-pixbuf2.0-dev libgtk-3-dev libxss-dev libasound2t64
+      # - name: Install System Dependencies
+      #   shell: bash
+      #   run: |
+      #     sudo apt-get update -yy
+      #     sudo apt-get install -yy libnss3-dev libgdk-pixbuf2.0-dev libgtk-3-dev libxss-dev libasound2t64
           
       # - name: NPM START
       #   shell: bash
