@@ -28,15 +28,15 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           
-      - name: 'Resolve Project Dependencies Using Npm'
-        shell: bash
-        run: |
-          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          npm install
-          npx puppeteer browsers install chrome
-          npm run build --if-present
-          npm run test --if-present
-          popd
+      # - name: 'Resolve Project Dependencies Using Npm'
+      #   shell: bash
+      #   run: |
+      #     pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+      #     npm install
+      #     npx puppeteer browsers install chrome
+      #     npm run build --if-present
+      #     npm run test --if-present
+      #     popd
           
       # - name: Download Chrome
       #   run: |
@@ -74,13 +74,19 @@ jobs:
       #   run: |
       #     sudo apt-get update -yy
       #     sudo apt-get install -yy libnss3-dev libgdk-pixbuf2.0-dev libgtk-3-dev libxss-dev libasound2t64
-          
-      - name: NPM START
+      - name: 'Resolve Project Dependencies Using Npm'
         shell: bash
         run: |
-          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          npx puppeteer browsers install
-          popd
+          npm install
+          npx puppeteer browsers install chrome
+          npm run build --if-present
+          npm run test --if-present    
+      # - name: NPM START
+      #   shell: bash
+      #   run: |
+      #     pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+      #     npx puppeteer browsers install
+      #     popd
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
         id: fa
