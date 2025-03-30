@@ -36,7 +36,17 @@ jobs:
           npm run build --if-present
           npm run test --if-present
           popd
+          
+      - name: Download Chrome
+        run: |
+            mkdir -p ./chrome-linux
+            wget -O google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+            dpkg-deb -x google-chrome-stable_current_amd64.deb ./chrome-linux
+            mv ./chrome-linux/opt/google/chrome ./chrome-linux/chrome
 
+      - name: Set Permissions
+        run: chmod +x ./chrome-linux/chrome/google-chrome
+        
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
 
@@ -58,15 +68,6 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
-      - name: Download Chrome
-        run: |
-            mkdir -p ./chrome-linux
-            wget -O google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-            dpkg-deb -x google-chrome-stable_current_amd64.deb ./chrome-linux
-            mv ./chrome-linux/opt/google/chrome ./chrome-linux/chrome
-
-      - name: Set Permissions
-        run: chmod +x ./chrome-linux/chrome/google-chrome
 
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
