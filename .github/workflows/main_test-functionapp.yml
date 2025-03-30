@@ -77,7 +77,7 @@ jobs:
       - name: 'Resolve Project Dependencies Using Npm'
         shell: bash
         run: |
-          npm install
+          npm ci
           npx puppeteer browsers install chrome
           npm run build --if-present
           npm run test --if-present    
