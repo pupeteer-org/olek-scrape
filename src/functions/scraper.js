@@ -13,9 +13,14 @@ app.http('scraper', {
         let urlString = "https://pptr.dev";
         const url = new URL(urlString);
         try {
+            // const browser = await puppeteer.launch({
+            //     headless: true,
+            //     executablePath: '/home/site/wwwroot/chrome/linux-134.0.6998.165/chrome-linux64/chrome',
+            //     args: ['--no-sandbox', '--disable-setuid-sandbox']
+            // });
             const browser = await puppeteer.launch({
                 headless: true,
-                executablePath: '/home/site/wwwroot/chrome/linux-134.0.6998.165/chrome-linux64/chrome',
+                executablePath:  `${process.cwd()}\\chrome\\linux-134.0.6998.165\\chrome-linux64\\chrome`,
                 args: ['--no-sandbox', '--disable-setuid-sandbox']
             });
             // const browser = await puppeteer.launch({
