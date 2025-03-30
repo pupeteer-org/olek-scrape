@@ -23,6 +23,7 @@ appsettings.json
 local.settings.json
 
 node_modules
+chrome
 dist
 
 # Local python packages

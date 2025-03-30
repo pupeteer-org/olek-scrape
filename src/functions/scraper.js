@@ -1,13 +1,52 @@
 const { app } = require('@azure/functions');
+const puppeteer = require('puppeteer-core');
 
 app.http('scraper', {
     methods: ['GET', 'POST'],
     authLevel: 'anonymous',
     handler: async (request, context) => {
         context.log(`Http function processed request for url "${request.url}"`);
+        //const name = request.query.get('name') || await request.text() || 'world';
 
-        const name = request.query.get('name') || await request.text() || 'world';
+        // const  payload = await request.json();
+        let urlString = "https://pptr.dev";
+        const url = new URL(urlString);
+        try {
+            const browser = await puppeteer.launch({
+                headless: true,
+                executablePath: './chrome-linux/chrome/google-chrome',
+                args: ['--no-sandbox', '--disable-setuid-sandbox']
+            });
+            // const browser = await puppeteer.launch({
+            //   executablePath: `${process.cwd()}\\chrome`,
+            //   headless: true,
+            //   args: [
+            //     '--no-sandbox',
+            //     '--disable-setuid-sandbox'
+            //   ],
+            // })
+            const page = await browser.newPage()
+            await page.goto(url.href, { waitUntil: 'domcontentloaded' })
+            const data = await page.evaluate(() => {
+                const titles = Array.from(document.querySelectorAll('h2'))
+                textValue="";
+                titles.forEach(title => {
+                    textValue = textValue + title.innerHTML;
+                });
+                return textValue;
+            })
+            console.log(data)
+            await browser.close()
 
-        return { body: `Hello, ${name}!` };
+            return { body: data};
+        } catch (err) {
+            return {
+                body: JSON.stringify({ "error": err.stack })
+            }
+        }
+
+        // const page = await browser.newPage()
+        // await page.goto(url.href, { waitUntil: 'domcontentloaded' })
+
     }
 });
