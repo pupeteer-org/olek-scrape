@@ -15,16 +15,16 @@ app.http('scraper', {
         try {
             const browser = await puppeteer.launch({
                 headless: true,
-                executablePath: '/home/site/wwwroot/chrome-linux/chrome/google-chrome',
+                executablePath: '/home/site/wwwroot/chrome/linux-134.0.6998.165/chrome-linux64/chrome',
                 args: ['--no-sandbox', '--disable-setuid-sandbox']
             });
             // const browser = await puppeteer.launch({
-            //   executablePath: `${process.cwd()}/chrome`,
-            //   headless: true,
-            //   args: [
-            //     '--no-sandbox',
-            //     '--disable-setuid-sandbox'
-            //   ],
+            //     executablePath: `${process.cwd()}\\chrome\\win64-134.0.6998.165\\chrome-win64\\chrome.exe`,
+            //     headless: true,
+            //     args: [
+            //         '--no-sandbox',
+            //         '--disable-setuid-sandbox'
+            //     ],
             // })
             // const browser = await puppeteer.launch({
             //     headless: true,
@@ -37,7 +37,7 @@ app.http('scraper', {
             await page.goto(url.href, { waitUntil: 'domcontentloaded' })
             const data = await page.evaluate(() => {
                 const titles = Array.from(document.querySelectorAll('h2'))
-                textValue="";
+                textValue = "";
                 titles.forEach(title => {
                     textValue = textValue + title.innerHTML;
                 });
@@ -46,7 +46,7 @@ app.http('scraper', {
             console.log(data)
             await browser.close()
 
-            return { body: data};
+            return { body: data };
         } catch (err) {
             return {
                 body: JSON.stringify({ "error": err.stack })
